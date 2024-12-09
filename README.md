@@ -15,6 +15,11 @@ It is currently in development and is not yet ready for production use. any erro
 - [ ] Cron Jobs (Clean Old Pastes)
 - [ ] Add a Contact Page
 - [ ] API Support / API Docs / API Endpoints 
+- [ ] Master Account setup on first use
+- [ ] Custom Code Highlighting Support for many languages
+- [ ] Add a Settings Page
+- [ ] A Profile viewing system / page
+- [ ] Add a Terms of Service page
 
 
 ## Installation
