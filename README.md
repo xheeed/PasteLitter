@@ -7,14 +7,15 @@ PasteLitter is an open source solution for a pastebin like website. It is made w
 It is currently in development and is not yet ready for production use. any errors or suggestions can be reported to the [issues page](https://github.com/Joe-Development/PasteLitter/issues).
 
 ## Features / Upcoming Features
-[x] Simplistic UI
-[x] Register / Login
-[ ] Admin Panel (%20 done)
-[ ] Add a Clean Home Page
-[ ] add a privacy policy page
-[ ] Cron Jobs (Clean Old Pastes)
-[ ] Add a Contact Page
-[ ] API Support / API Docs / API Endpoints 
+- [x] Simplistic UI
+- [x] Register / Login
+- [ ] Admin Panel (%20 done)
+- [ ] Add a Clean Home Page
+- [ ] add a privacy policy page
+- [ ] Cron Jobs (Clean Old Pastes)
+- [ ] Add a Contact Page
+- [ ] API Support / API Docs / API Endpoints 
+
 
 ## Installation
 
