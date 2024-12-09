@@ -10,8 +10,6 @@ It is currently in development and is not yet ready for production use. any erro
 
 ## Installation
 
-First of all, you need to install Node.JS and MySQL. Once you have installed Node.JS and MySQL, you can install the dependencies needed for PasteLitter by running the following command in the root of the project:
-
 ```bash
 npm install
 ```
