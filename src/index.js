@@ -1,5 +1,6 @@
 const { query } = require('./database');
-const config = require('../config.json');
+const config = require("./functions/env.js");
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -10,13 +11,13 @@ const extra = require('./functions/extra');
 const app = express();
 
 const options = {
-	host: config.mysql.host,
-	port: config.mysql.port,
-	user: config.mysql.user,
-	password: config.mysql.password,
+	host: config.HOST,
+	port: config.PORT,
+	user: config.USER,
+	password: config.PASSWORD,
     clearExpired: true,
     createDatabaseTable: true,
-	database: config.mysql.database,
+	database: config.DATABASE,
     schema: {
 		tableName: 'sessions',
 		columnNames: {
@@ -30,7 +31,7 @@ const options = {
 const sessionStore = new MySQLStore(options);
 
 const sessionMiddleware = session({
-    secret: config.session.secret,
+    secret: config.SECRET,
     resave: false,
     store: sessionStore,
     saveUninitialized: false,
@@ -160,8 +161,8 @@ app.use((err, req, res, next) => {
 
 // -- ERROR HANDLERS --
 
-app.listen(config.sitesettings.port, () => {
+app.listen(config.SITEPORT, () => {
     sessionStore.onReady().then(() => {
-        console.log(`[+] listening on ${config.sitesettings.host}`);
+        console.log(`[+] listening on ${config.SITEURL}`);
     })
 })

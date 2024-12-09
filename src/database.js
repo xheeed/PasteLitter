@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
-const config = require('../config.json');
-const pool = mysql.createPool(config.mysql).promise();
+const config = require("./functions/env.js");
+const pool = mysql.createPool(config.MYSQL).promise();
 
 /** 
  * @param {string} sql
