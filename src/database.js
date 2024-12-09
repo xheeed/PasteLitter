@@ -1,6 +1,12 @@
 const mysql = require('mysql2');
 const config = require("./functions/env.js");
-const pool = mysql.createPool(config.MYSQL).promise();
+const pool = mysql.createPool({
+    host: config.HOST,
+    port: config.PORT,
+    user: config.USER,
+    password: config.PASSWORD,
+    database: config.DATABASE
+}).promise();
 
 /** 
  * @param {string} sql
