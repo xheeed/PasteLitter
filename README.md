@@ -9,6 +9,7 @@ It is currently in development and is not yet ready for production use. any erro
 ## Features / Upcoming Features
 - [x] Simplistic UI
 - [x] Register / Login
+- [ ] Google or Cloudflare Captcha Support for Registering/Logging In
 - [ ] Admin Panel (%20 done)
 - [ ] Add a Clean Home Page
 - [ ] add a privacy policy page
