@@ -1,0 +1,13 @@
+<div class="sidebar-left">
+    <ul>
+        <li><a href="/admin" class="<%= (path === '/admin' ? 'active' : '') %>">Admin Home</a></li>
+        <li><a href="/admin/users" class="<%= (path === '/admin/users' ? 'active' : '') %>">Manage Users</a></li>
+        <li><a href="/admin/pastes" class="<%= (path === '/admin/pastes' ? 'active' : '') %>">Manage Pastes</a></li>
+    </ul>
+</div>
+
+<script>
+    $(".sidebar-left li").click(function() {
+        window.location.href = $(this).children("a").attr("href");
+    });
+</script>

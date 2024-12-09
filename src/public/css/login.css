@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #060606;
+    color: #ffffff;
+    font-size: 0.9em;
+}
+
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 30px;
+    width: 320px;
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px 40px 12px 10px;
+    margin: 0;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 1em;
+}
+
+.input-container input:focus {
+    outline: none;
+}
+
+.input-container input::placeholder {
+    color: #c3c3c3ba;
+}
+
+.input-container .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    color: #c3c3c3ba;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.input-container .password-toggle:hover {
+    color: #ffffff;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-container input:-webkit-autofill,
+.login-container input:-webkit-autofill:hover,
+.login-container input:-webkit-autofill:focus,
+.login-container input:-webkit-autofill:active {
+    background-color: #333 !important;
+}
+
+.login-container input:-moz-autofill,
+.login-container input:-moz-autofill:hover,
+.login-container input:-moz-autofill:focus,
+.login-container input:-moz-autofill:active {
+    background-color: #333 !important;
+}
+
+.login-container input:-internal-autofill-selected {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/login.css" type="text/css">
+    <link rel="stylesheet" href="/css/partials/navbar.css" type="text/css">
+    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
+    <title><%= title %></title>
+</head>
+<body>
+    <%- include('partials/navbar.ejs') %>
+
+    <div class="login-container">
+        <h1>Login</h1>
+        <div class="input-container">
+            <input type="text" placeholder="Username" name="username" required>
+        </div>
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Password" name="password" required>
+            <i class='bx bx-show password-toggle' id="togglePassword"></i>
+        </div>
+        <button type="submit">Login</button>
+        <div class="error-message hidden"></div>
+
+    </div>
+
+    <script>
+        $('#togglePassword').click(function() {
+            const type = $('#password').attr('type') === 'password' ? 'text' : 'password';
+            $('#password').attr('type', type);
+            $(this).toggleClass('bx-show bx-hide');
+        });
+
+
+
+        $(document).on('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const username = document.querySelector('input[name="username"]').value;
+                const password = document.querySelector('input[name="password"]').value;
+                $.ajax({
+                    url: '/auth/login',
+                    method: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(data, textStatus, xhr) {
+                        if (xhr.status === 200) {
+                            window.location.href = '/';
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('.error-message').text(xhr.responseJSON.message).removeClass('hidden');
+                    }
+                })
+            }
+        });
+
+        $('button[type="submit"]').on('click', function(event) {
+            event.preventDefault();
+            const username = document.querySelector('input[name="username"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+            $.ajax({
+                url: '/auth/login',
+                method: 'POST',
+                data: {
+                    username: username,
+                    password: password
+                },
+                success: function(data, textStatus, xhr) {
+                    if (xhr.status === 200) {
+                        window.location.href = '/';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('.error-message').text(xhr.responseJSON.message).removeClass('hidden');
+                }
+            })
+        });
+        
+    </script>
+
+</body>
+</html>

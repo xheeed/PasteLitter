@@ -1,0 +1,167 @@
+const { query } = require('./database');
+const config = require('../config.json');
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const path = require('path');
+const MySQLStore = require('express-mysql-session')(session);
+const extra = require('./functions/extra');
+
+const app = express();
+
+const options = {
+	host: config.mysql.host,
+	port: config.mysql.port,
+	user: config.mysql.user,
+	password: config.mysql.password,
+    clearExpired: true,
+    createDatabaseTable: true,
+	database: config.mysql.database,
+    schema: {
+		tableName: 'sessions',
+		columnNames: {
+			session_id: 'session_id',
+			expires: 'expires',
+			data: 'data'
+		}
+	}
+};
+
+const sessionStore = new MySQLStore(options);
+
+const sessionMiddleware = session({
+    secret: config.session.secret,
+    resave: false,
+    store: sessionStore,
+    saveUninitialized: false,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
+});
+
+app.use(sessionMiddleware);
+app.use(express.static(path.join(__dirname, '/public')));
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.set('trust proxy', 1) // enables reverse proxy support, allowing express to use the X-Forwarded-* headers to determine the connection properties (e.g. if the connection is secure or not)
+
+// -- ROUTES --
+require('./backend/auth')(app, session);
+require('./backend/api')(app, session);
+// -- ROUTES --
+
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'PasteLitter',
+        path: req.path,
+        user: (req.session.user ? req.session.user : null)
+    });
+})
+
+app.get('/admin', (req, res) => {
+    if (req.session.user && (req.session.user.rank === 'admin' || req.session.user.rank === 'owner')) {
+        res.render('admin/admin-home', {
+            title: 'PasteLitter - Admin Panel',
+            path: req.path,
+            user: (req.session.user ? req.session.user : null),
+        });
+    } else {
+        res.redirect('/unauthorized');
+    }
+})
+
+// admin/users
+app.get('/admin/users', async (req, res) => {
+    if (req.session.user && (req.session.user.rank === 'admin' || req.session.user.rank === 'owner')) {
+        const users = await query('SELECT * FROM users');
+        res.render('admin/admin-users', {
+            title: 'PasteLitter - Admin Panel',
+            path: req.path,
+            user: (req.session.user ? req.session.user : null),
+            users
+        });
+    } else {
+        res.redirect('/unauthorized');
+    }
+})
+
+// admin/pastes
+app.get('/admin/pastes', (req, res) => {
+    if (req.session.user && (req.session.user.rank === 'admin' || req.session.user.rank === 'owner')) {
+        res.render('admin/admin-pastes', {
+            title: 'PasteLitter - Admin Panel',
+            path: req.path,
+            user: (req.session.user ? req.session.user : null)
+        });
+    } else {
+        res.redirect('/unauthorized');
+    }
+})
+
+// user profile
+
+app.get('/profile/:id', async (req, res) => {
+    const user = await query('SELECT * FROM users WHERE id = ?', [req.params.id]);
+    res.render('profile', {
+        title: `PasteLitter - ${user[0].username}\'s Profile`,
+        path: req.path,
+        user: (req.session.user ? req.session.user : null),
+        profile: user[0]
+    });
+})
+
+app.get('/unauthorized', (req, res) => {
+    res.render('errors/401', {
+        user: (req.session.user ? req.session.user : null),
+        path: req.path
+    })    
+})
+
+app.get('/auth/register', (req, res) => {
+    if (req.session.user) {
+        return res.redirect('/');
+    }
+    res.render('register', {
+        title: 'PasteLitter - Register',
+        path: req.path,
+        user: null
+    });
+});
+
+app.get('/auth/login', (req, res) => {
+    if (req.session.user) {
+        return res.redirect('/');
+    }
+    res.render('login', {
+        title: 'PasteLitter - Login',
+        path: req.path,
+        user: null
+    });
+});
+
+
+// -- ERROR HANDLERS --
+
+app.use((req, res) => {
+    res.status(404).render('errors/404', {
+        user: (req.session.user ? req.session.user : null),
+        path: req.path
+    });
+})
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).render('errors/500', {
+        user: (req.session.user ? req.session.user : null),
+        path: req.path,
+    });
+})
+
+
+// -- ERROR HANDLERS --
+
+app.listen(config.sitesettings.port, () => {
+    sessionStore.onReady().then(() => {
+        console.log(`[+] listening on ${config.sitesettings.host}`);
+    })
+})

@@ -1,0 +1,38 @@
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="/" class="logo">PasteLitter</a>
+        <div class="nav-links">
+            <a href="/" class="<%= (path === '/' ? 'active' : '') %>">Home</a>
+            <a href="/" class="<%= (path === '/paste/add' ? 'active' : '') %>">Paste</a>
+            <a href="/" class="<%= (path === '/users' ? 'active' : '') %>">Users</a>
+
+        </div>
+    </div>
+    <div class="navbar-right">
+        <% if (!user) { %>
+            <div class="nav-links">
+                <a href="/auth/login" class="<%= (path === '/auth/login' ? 'active' : '') %>">Login</a>
+                <a href="/auth/register" class="register <%= (path === '/auth/register' ? 'active' : '') %>">Register</a>
+            </div>
+        <% } else { %>
+            <div class="nav-links">
+                <div class="dropdown">
+                    <a href="/profile/<%= user.id %>" class="dropdown-toggle"><%= user.username %></a>
+                    <div class="dropdown-content">
+                        <a href="/profile/<%= user.id %>">Profile</a>
+                        <% if (user.rank === 'admin' || user.rank === 'owner') { %><a href="/admin">Admin Panel</a><% } %>
+                        <a href="/auth/logout">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    $(".dropdown-toggle").click(function() {
+                        $(".dropdown-content").toggle();
+                    });
+                </script>
+            </div>
+        <% } %>
+    </div>
+</nav>
+
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/register.css" type="text/css">
+    <link rel="stylesheet" href="/css/partials/navbar.css" type="text/css">
+    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
+    <title><%= title %></title>
+</head>
+<body>
+    <%- include('partials/navbar.ejs') %>
+
+<div class="register-container">
+    <h1>Register</h1>
+    <form action="/auth/register" method="POST">
+        <div class="input-container">
+            <input type="text" placeholder="Username" name="username" required>
+        </div>
+
+        <div class="input-container">
+            <input type="email" placeholder="Email (optional)" name="email">
+        </div>
+
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Password" name="password" required>
+            <i class='bx bx-show password-toggle' id="togglePassword"></i>
+        </div>
+
+        <button type="submit">Register</button>
+        <div class="error-message hidden"></div>
+
+    </form>
+    
+</div>
+
+<script>
+    $('#togglePassword').click(function() {
+        const type = $('#password').attr('type') === 'password' ? 'text' : 'password';
+        $('#password').attr('type', type);
+        $(this).toggleClass('bx-show bx-hide');
+    });
+
+
+    $('form').submit(function(e) {
+        e.preventDefault();
+        const username = document.querySelector('input[name="username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+        const email = document.querySelector('input[name="email"]').value;
+        $.ajax({
+            url: '/auth/register',
+            method: 'POST',
+            data: {
+                username: username,
+                password: password,
+                email: email
+            },
+            success: function(data, textStatus, xhr) {
+                if (xhr.status === 200) {
+                    window.location.href = '/auth/login';
+                }
+            },
+            error: function(xhr, status, error) {
+                $('.error-message').text(xhr.responseJSON.message).removeClass('hidden');
+            }
+        })
+    })
+</script>
+</body>
+</html>
