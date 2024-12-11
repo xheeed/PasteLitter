@@ -26,6 +26,7 @@ It is currently in development and is not yet ready for production use. any erro
 - [ ] Report a paste
 - [ ] Custom Theme Support
 - [ ] Custom Expiration Support
+- [ ] Malicous Paste Detection
 
 
 
