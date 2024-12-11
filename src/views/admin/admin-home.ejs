@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/index.css" type="text/css">
     <link rel="stylesheet" href="/css/partials/navbar.css" type="text/css">
     <link rel="stylesheet" href="/css/partials/sidebar.css" type="text/css">
-
+    <link rel="stylesheet" href="/css/stats.css" type="text/css">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
     <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
     <title><%= title %></title>
@@ -18,7 +18,21 @@
 
     <%- include('../partials/sidebar.ejs') %>
 
+    <div class="stats-container">
+        <div class="stats-card">
+            <h1><%= totalUsers %></h1>
+            <p>Total Users</p>
+        </div>
+
+        <div class="stats-card">
+            <h1><%= totalPastes %></h1>
+            <p>Total Pastes</p>
+        </div>
+
+        
+    </div>
 
 
 </body>
 </html>
+
