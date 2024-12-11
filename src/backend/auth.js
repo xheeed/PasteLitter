@@ -1,4 +1,4 @@
-const { comparePassword, hashPassword } = require('../functions/extra');
+const { comparePassword, hashPassword, logAction } = require('../functions/extra');
 const { query } = require('../database');
 
 module.exports = function (app, session) {
@@ -24,6 +24,8 @@ module.exports = function (app, session) {
             rank: user[0].rank,
             email: user[0].email
         };
+
+        logAction(user[0].username, 'Logged in');
         res.redirect('/');
     });
 
@@ -43,6 +45,15 @@ module.exports = function (app, session) {
             });
             return;
         }
+
+        const htmlRegex = /<|>/;
+        if (htmlRegex.test(username) || htmlRegex.test(password) || htmlRegex.test(email)) {
+            res.status(400).send({
+                message: 'Invalid characters in input',
+            });
+            return;
+        }
+
         if (email) {
             const userByEmail = await query('SELECT * FROM users WHERE email = ?', [email]);
             if (userByEmail.length > 0) {

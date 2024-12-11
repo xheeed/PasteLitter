@@ -19,6 +19,17 @@ module.exports = {
         }
     },
 
+    /**
+     * @param {string} username
+     * @param {desc} description
+     * @returns {void}
+     */
+    logAction: async (username, description) => {
+        const user = await query('SELECT id FROM users WHERE username = ?', [username]);
+        if (user.length > 0) {
+            await query('INSERT INTO logs (user_id, username, action_desc) VALUES (?, ?, ?)', [user[0].id, username, description]);
+        }
+    },
 
     /**
      * 

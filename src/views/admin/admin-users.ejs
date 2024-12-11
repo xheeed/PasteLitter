@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/index.css" type="text/css">
     <link rel="stylesheet" href="/css/partials/navbar.css" type="text/css">
     <link rel="stylesheet" href="/css/partials/sidebar.css" type="text/css">
-
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
     <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
     <title><%= title %></title>
@@ -32,6 +31,82 @@
     </table>
 
 
+    <script src="/js/users.js"></script>
+    <script>
 
+        const self = {
+            id: null,
+            username: null,
+            email: null,
+            rank: null
+        }
+
+        // fetch user data using api
+
+        $.ajax({
+            url: '/api/session/info',
+            method: 'GET',
+            success: function(data) {
+                if (data.status === 'success') {
+                    self.id = data.data.id;
+                    self.username = data.data.username;
+                    self.email = data.data.email;
+                    self.rank = data.data.rank;
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/users',
+                method: 'GET',
+                success: function(data) {
+                    if (data.status === 'success') {
+                        const users = data.data;
+                        for (const user of users) {
+                            let options = '';
+                            if (user.rank === 'owner' || (user.rank === 'admin' && self.rank !== 'owner')) {
+                                options = 'No Options';
+                            } else {
+                                if (self.rank === 'owner' && user.id !== self.id) {
+                                    options = `
+                                        <button class="delete-btn" onclick="deleteUser(${user.id})">Delete</button>
+                                        <button class="ban-btn" onclick="banUser(${user.id})">Ban</button>
+                                    `;
+                                }
+                                if (self.rank === 'admin' && user.rank === 'admin' && user.id !== self.id) {
+                                    options = `
+                                        <button class="delete-btn" onclick="deleteUser(${user.id})">Delete</button>
+                                    `;
+                                }
+                                if (user.id === self.id) {
+                                    options = `
+                                        <button class="edit-btn" onclick="editUser(${user.id})">Edit</button>
+                                    `;
+                                }
+                            }
+                            $('.user-table').append(`
+                                <tr class="user-row">
+                                    <td>${user.username}</td>
+                                    <td class="email-blur">${user.email}</td>
+                                    <td>${user.rank.charAt(0).toUpperCase() + user.rank.slice(1)}</td>
+                                    <td>
+                                        ${options}
+                                    </td>
+                                </tr>
+                            `);
+                        }
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+        
+    </script>
 </body>
 </html>

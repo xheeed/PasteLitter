@@ -48,3 +48,151 @@ body {
     display: block;
 }
 
+.email-blur {
+    filter: blur(8px);
+    transition: filter 0.1s ease;
+}
+
+.email-blur:hover {
+    filter: none;
+}
+
+.btn-danger {
+    background-color: #ff0000b0;
+    color: #ffffff;
+    padding: 4px 8px;
+    border: 1px solid #ff0000;
+    cursor: pointer;
+    border-radius: 2px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #060606;
+    padding: 20px;
+    border: 1px solid #282828;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
+    color: #ffffff; 
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 1em;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #282828;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #060606;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* User Action Buttons */
+
+.delete-btn {
+    background-color: #060606;
+    color: #ffffff;
+    padding: 4px 8px;
+    border: 1px solid #282828;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.delete-btn:hover {
+    background-color: #282828;
+}
+
+
+.ban-btn {
+    background-color: #060606;
+    color: #ffffff;
+    padding: 4px 8px;
+    border: 1px solid #282828;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.ban-btn:hover {
+    background-color: #282828;
+}
+
+.edit-btn {
+    background-color: #060606;
+    color: #ffffff;
+    padding: 4px 8px;
+    border: 1px solid #282828;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.edit-btn:hover {
+    background-color: #282828;
+}
+
+
+
+
+
+/* Logs Table */
+
+.logs-table {
+    border-collapse: collapse;
+    width: calc(100% - 250px);
+    margin-left: 225px;
+    margin-top: 20px;
+}
+
+.logs-table th,
+.logs-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #282828;
+}
+
+.logs-table th {
+    background-color: #282828;
+    color: #ffffff;
+}

@@ -73,4 +73,27 @@ module.exports = function(app, session, upload) {
         }
     })
 
+    app.get('/api/logs', async (req, res) => {
+        if (req.session.user && ['owner', 'admin'].includes(req.session.user.rank)) {
+            const { limit = 100, shift = 0, filter = null } = req.query;
+
+            let data;
+            if (filter !== null) {
+                data = await query('SELECT id, username, action_desc, created_at FROM logs WHERE username LIKE ? LIMIT ? OFFSET ?', [`%${filter}%`, limit, shift]);
+            } else {
+                data = await query('SELECT id, username, action_desc, created_at FROM logs LIMIT ? OFFSET ?', [limit, shift]);
+            }
+            
+            res.status(200).send({
+                status: 'success',
+                data: data
+            });
+        } else {
+            res.status(401).send({
+                status: 'error',
+                message: 'You do not have permission to perform this action'
+            });
+        }
+    })
+
 }

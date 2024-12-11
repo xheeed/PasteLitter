@@ -99,6 +99,20 @@ app.get('/admin/pastes', (req, res) => {
     }
 })
 
+// admin/logs
+
+app.get('/admin/logs', (req, res) => {
+    if (req.session.user && (req.session.user.rank === 'admin' || req.session.user.rank === 'owner')) {
+        res.render('admin/admin-logs', {
+            title: 'PasteLitter - Admin Panel',
+            path: req.path,
+            user: (req.session.user ? req.session.user : null)
+        });
+    } else {
+        res.redirect('/unauthorized');
+    }
+})
+
 // user profile
 
 app.get('/profile/:id', async (req, res) => {
