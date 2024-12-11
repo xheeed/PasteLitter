@@ -59,48 +59,34 @@ app.get('/', (req, res) => {
     });
 })
 
+const cache = {
+    totalUsers: null,
+    totalPastes: null,
+    totalLogs: null,
+    cacheTime: null
+};
+
 app.get('/admin', async (req, res) => {
     if (req.session.user && (req.session.user.rank === 'admin' || req.session.user.rank === 'owner')) {
-        let total_users = req.session.totalUsers;
-        let total_pastes = req.session.totalPastes;
-        let total_logs = req.session.totalLogs;
-        if (!total_users || !total_pastes || !total_logs) {
+        const cacheTime = 10 * 60 * 1000;
+        if (!cache.totalUsers || !cache.totalPastes || !cache.totalLogs || Date.now() - cache.cacheTime > cacheTime) {
             const data = await Promise.all([
                 query('SELECT * FROM users'),
                 query('SELECT * FROM pastes'),
                 query('SELECT * FROM logs')
             ]);
-            total_users = data[0].length;
-            total_pastes = data[1].length;
-            total_logs = data[2].length;
-            req.session.totalUsers = total_users;
-            req.session.totalPastes = total_pastes;
-            req.session.totalLogs = total_logs;
-            req.session.statsCache = Date.now();
-        } else {
-            const cacheTime = 10 * 60 * 1000;
-            if (Date.now() - req.session.statsCache > cacheTime) {
-                const data = await Promise.all([
-                    query('SELECT * FROM users'),
-                    query('SELECT * FROM pastes'),
-                    query('SELECT * FROM logs')
-                ]);
-                total_users = data[0].length;
-                total_pastes = data[1].length;
-                total_logs = data[2].length;
-                req.session.totalUsers = total_users;
-                req.session.totalPastes = total_pastes;
-                req.session.totalLogs = total_logs;
-                req.session.statsCache = Date.now();
-            }
+            cache.totalUsers = data[0].length;
+            cache.totalPastes = data[1].length;
+            cache.totalLogs = data[2].length;
+            cache.cacheTime = Date.now();
         }
         res.render('admin/admin-home', {
             title: 'PasteLitter - Admin Panel',
             path: req.path,
             user: (req.session.user ? req.session.user : null),
-            totalUsers,
-            totalPastes,
-            totalLogs
+            totalUsers: cache.totalUsers,
+            totalPastes: cache.totalPastes,
+            totalLogs: cache.totalLogs
         });
     } else {
         res.redirect('/unauthorized');
