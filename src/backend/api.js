@@ -77,17 +77,24 @@ module.exports = function(app, session, upload) {
         if (req.session.user && ['owner', 'admin'].includes(req.session.user.rank)) {
             const { limit = 100, shift = 0, filter = null } = req.query;
 
-            let data;
-            if (filter !== null) {
-                data = await query('SELECT id, username, action_desc, created_at FROM logs WHERE username LIKE ? LIMIT ? OFFSET ?', [`%${filter}%`, limit, shift]);
-            } else {
-                data = await query('SELECT id, username, action_desc, created_at FROM logs LIMIT ? OFFSET ?', [limit, shift]);
+            try {
+                let data;
+                if (filter !== null) {
+                    data = await query('SELECT id, username, action_desc, created_at FROM logs WHERE username LIKE ? LIMIT ? OFFSET ?', [`%${filter}%`, limit, shift]);
+                } else {
+                    data = await query('SELECT id, username, action_desc, created_at FROM logs LIMIT ? OFFSET ?', [limit, shift]);
+                }
+                
+                res.status(200).send({
+                    status: 'success',
+                    data: data
+                });
+            } catch (err) {
+                res.status(500).send({
+                    status: 'error',
+                    message: 'SQL injection detected or SQL syntax error'
+                });
             }
-            
-            res.status(200).send({
-                status: 'success',
-                data: data
-            });
         } else {
             res.status(401).send({
                 status: 'error',
