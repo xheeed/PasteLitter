@@ -75,9 +75,9 @@ app.get('/admin', async (req, res) => {
                 query('SELECT * FROM pastes'),
                 query('SELECT * FROM logs')
             ]);
-            cache.totalUsers = data[0].length;
-            cache.totalPastes = data[1].length;
-            cache.totalLogs = data[2].length;
+            cache.totalUsers = data[0].length || 0;
+            cache.totalPastes = data[1].length || 0;
+            cache.totalLogs = data[2].length || 0;
             cache.cacheTime = Date.now();
         }
         res.render('admin/admin-home', {
