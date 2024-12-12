@@ -12,6 +12,7 @@ It is currently in development and is not yet ready for production use. any erro
 - [x] Register / Login
 - [ ] Google or Cloudflare Captcha Support for Registering/Logging In
 - [ ] Admin Panel (20% done)
+- [ ] Better Stats Page for Admins
 - [ ] Add a Clean Home Page
 - [ ] add a privacy policy page
 - [ ] Cron Jobs (Clean Old Pastes)
