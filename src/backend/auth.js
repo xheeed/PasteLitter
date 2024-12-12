@@ -1,3 +1,9 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
+
 const { comparePassword, hashPassword, logAction } = require('../functions/extra');
 const { query } = require('../database');
 

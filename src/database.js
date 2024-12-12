@@ -1,3 +1,9 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
+
 const mysql = require('mysql2');
 const config = require("./functions/env.js");
 const pool = mysql.createPool({

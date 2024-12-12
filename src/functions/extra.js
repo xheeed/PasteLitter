@@ -1,3 +1,8 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { query } = require('../database');

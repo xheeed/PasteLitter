@@ -1,3 +1,8 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
 const path = require("path");
 const fs = require("fs");
 

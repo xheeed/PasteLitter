@@ -1,3 +1,8 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
 const { query } = require('./database');
 const config = require("./functions/env.js");
 

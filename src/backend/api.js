@@ -1,7 +1,13 @@
+/*
+┌──────────────────────────────────────────┐
+│               PasteLitter                │ 
+│            All rights Reserved           │ 
+└──────────────────────────────────────────┘*/
+
 const { query } = require('../database');
 const extra = require('../functions/extra');
 
-module.exports = function(app, session, upload) {
+module.exports = function(app, session) {
     app.get('/api/session/info', async (req, res) => {
         if (req.session.user) {
             res.status(200).send({
