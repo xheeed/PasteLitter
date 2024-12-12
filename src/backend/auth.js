@@ -11,6 +11,15 @@ module.exports = function (app, session) {
             });
             return;
         }
+
+        const htmlRegex = /<|>/;
+        if (htmlRegex.test(username) || htmlRegex.test(password)) {
+            res.status(400).send({
+                message: 'Invalid characters in input',
+            });
+            return;
+        }
+
         const match = await comparePassword(password, user[0].password);
         if (!match) {
             res.status(401).send({
