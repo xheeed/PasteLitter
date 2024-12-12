@@ -81,6 +81,7 @@ module.exports = function (app, session) {
 
 
     app.get('/auth/logout', async (req, res) => {
+        logAction(req.session.user.username, 'Logged out');
         req.session.destroy();
         res.redirect('/');
     });
