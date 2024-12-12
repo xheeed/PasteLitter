@@ -58,14 +58,16 @@
                 console.log(error);
             }
         });
-
         $(document).ready(function() {
             $.ajax({
                 url: '/api/users',
                 method: 'GET',
                 success: function(data) {
                     if (data.status === 'success') {
-                        const users = data.data;
+                        const users = data.data.sort((a, b) => {
+                            const rankOrder = { 'owner': 1, 'admin': 2, 'user': 3 };
+                            return rankOrder[a.rank] - rankOrder[b.rank];
+                        });
                         for (const user of users) {
                             let options = '';
                             if (user.rank === 'owner' || (user.rank === 'admin' && self.rank !== 'owner')) {
