@@ -6,10 +6,8 @@ module.exports = function(app, session) {
 
     fs.readdirSync(routes).forEach((file) => {
         if (file.endsWith(".js")) {
-            const route = require(`${routes}/${file}`)(app, session);
-            console.log(`${route} has been initiated`);
+            require(`${routes}/${file}`)(app, session);
+            console.log(`[+] ${file.replace(".js", "")} has been loaded.`);
         }
     });
 }
-
-module.exports = routes;
