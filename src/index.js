@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+const fs = require("node:fs");
 const MySQLStore = require('express-mysql-session')(session);
 const extra = require('./functions/extra');
 
@@ -47,8 +48,7 @@ app.use(bodyParser.json());
 app.set('trust proxy', 1) // enables reverse proxy support, allowing express to use the X-Forwarded-* headers to determine the connection properties (e.g. if the connection is secure or not)
 
 // -- ROUTES --
-require('./backend/auth')(app, session);
-require('./backend/api')(app, session);
+require("./functions/routes.js")(app, session);
 // -- ROUTES --
 
 app.get('/', (req, res) => {
@@ -202,4 +202,6 @@ app.listen(config.SITEPORT, () => {
     sessionStore.onReady().then(() => {
         console.log(`[+] listening on ${config.SITEURL}`);
     })
-})
+});
+
+module.exports = app;
