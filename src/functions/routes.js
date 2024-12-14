@@ -12,7 +12,7 @@ module.exports = function(app, session) {
     fs.readdirSync(routes).forEach((file) => {
         if (file.endsWith(".js")) {
             require(`${routes}/${file}`)(app, session);
-            console.log(`[+] ${file.replace(".js", "")} has been loaded.`);
+            console.log(`[+] ${file.replace(".js", "")} -> loaded.`);
         }
     });
 }

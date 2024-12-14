@@ -34,5 +34,12 @@ $(document).ready(function() {
             console.log(error);
         }
     });
+
+    $('.search-filter').on('keyup', function() {
+        const value = $(this).val().toLowerCase();
+        $('.log-row-data').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
 });
 
